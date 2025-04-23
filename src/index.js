@@ -11,6 +11,7 @@ import {
 import { chapters } from "../data";
 import Pdf from "react-native-pdf";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
+
 const PdfRead = () => {
   const [page, setPage] = useState(1); // Current page state
   const [inputValue, setInputValue] = useState(""); // Tracks user input
@@ -18,6 +19,7 @@ const PdfRead = () => {
 
   const PdfResource = {
     uri: "https://drive.google.com/uc?export=download&id=1Qx_ybnljPVA-TqR6gnZ8axCtBqUud-k2",
+    // uri: "http://samples.leanpub.com/thereactnativebook-sample.pdf",
     cache: true,
   };
   function renderItem({ item, index }) {
@@ -63,6 +65,7 @@ const PdfRead = () => {
           onError={(error) => {
             console.log("Error loading PDF:", error);
           }}
+          trustAllCerts={false}
         />
         {/* Navigation Buttons */}
         {controlsVisible && (
