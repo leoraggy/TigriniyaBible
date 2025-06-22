@@ -1,12 +1,38 @@
-import { StyleSheet, Text, View, FlatList, Image } from "react-native";
-import React from "react";
+import {
+  StyleSheet,
+  Text,
+  View,
+  FlatList,
+  Image,
+  TouchableOpacity,
+} from "react-native";
+import { useState, useMemo } from "react";
 import { images } from "../utils/sortedImages";
+import ImageViewing from "react-native-image-viewing";
 
 export default function ImagesScreen() {
-  function renderItem({ item }) {
+  const [visible, setVisible] = useState(false);
+  const [currentIndex, setCurrentIndex] = useState(0);
+
+  const imageViewingData = useMemo(
+    () =>
+      images.map((item) => ({
+        uri: Image.resolveAssetSource(item.image).uri,
+      })),
+    []
+  );
+
+  const openImageViewer = (index) => {
+    setCurrentIndex(index);
+    setVisible(true);
+  };
+
+  function renderItem({ item, index }) {
     return (
       <View style={styles.imageContainer}>
-        <Image source={item.image} style={styles.image} />
+        <TouchableOpacity onPress={() => openImageViewer(index)}>
+          <Image source={item.image} style={styles.image} />
+        </TouchableOpacity>
       </View>
     );
   }
@@ -16,8 +42,16 @@ export default function ImagesScreen() {
       <FlatList
         data={images}
         renderItem={renderItem}
-        keyExtractor={(item) => item.id.toString()}
+        keyExtractor={(item, index) => item.id.toString()}
         numColumns={3}
+      />
+      <ImageViewing
+        images={imageViewingData}
+        imageIndex={currentIndex}
+        visible={visible}
+        onRequestClose={() => setVisible(false)}
+        swipeToCloseEnabled={true}
+        doubleTapToZoomEnabled={true}
       />
     </View>
   );
