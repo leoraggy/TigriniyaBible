@@ -5,7 +5,6 @@ import {
   Dimensions,
   TouchableOpacity,
   TextInput,
-  FlatList,
   Text,
   SectionList,
 } from "react-native";
@@ -22,7 +21,6 @@ export default function BibleScreen({ navigation }) {
 
   const PdfResource = {
     uri: "https://drive.google.com/uc?export=download&id=1Qx_ybnljPVA-TqR6gnZ8axCtBqUud-k2",
-    // uri: "http://samples.leanpub.com/thereactnativebook-sample.pdf",
     cache: true,
   };
   useLayoutEffect(() => {
@@ -40,35 +38,60 @@ export default function BibleScreen({ navigation }) {
     });
   }, [navigation, controlsVisible]);
 
-  function renderOld({ item, index }) {
-    const title = index + 1;
+  // Helper function to chunk array into groups of 5
+  const chunkArray = (array, chunkSize) => {
+    const chunks = [];
+    for (let i = 0; i < array.length; i += chunkSize) {
+      chunks.push(array.slice(i, i + chunkSize));
+    }
+    return chunks;
+  };
+
+  function renderOld({ item, section }) {
     return (
-      <TouchableOpacity
-        style={styles.button}
-        onPress={() => {
-          setPage(item);
-          setOldVisible(false);
-          setNewVisible(false);
-        }}
-      >
-        <Text style={styles.buttonText}>{title.toString()}</Text>
-      </TouchableOpacity>
+      <View style={styles.row}>
+        {item.map((pageNum, index) => {
+          const globalIndex = section.data.flat().indexOf(pageNum);
+          const title = globalIndex + 1;
+          return (
+            <TouchableOpacity
+              key={index}
+              style={styles.button}
+              onPress={() => {
+                setPage(pageNum);
+                setOldVisible(false);
+                setNewVisible(false);
+              }}
+            >
+              <Text style={styles.buttonText}>{title.toString()}</Text>
+            </TouchableOpacity>
+          );
+        })}
+      </View>
     );
   }
 
-  function renderNew({ item, index }) {
-    const title = index + 1;
+  function renderNew({ item, section }) {
     return (
-      <TouchableOpacity
-        style={styles.button}
-        onPress={() => {
-          setPage(item);
-          setOldVisible(false);
-          setNewVisible(false);
-        }}
-      >
-        <Text style={styles.buttonText}>{title.toString()}</Text>
-      </TouchableOpacity>
+      <View style={styles.row}>
+        {item.map((pageNum, index) => {
+          const globalIndex = section.data.flat().indexOf(pageNum);
+          const title = globalIndex + 1;
+          return (
+            <TouchableOpacity
+              key={index}
+              style={styles.button}
+              onPress={() => {
+                setPage(pageNum);
+                setOldVisible(false);
+                setNewVisible(false);
+              }}
+            >
+              <Text style={styles.buttonText}>{title.toString()}</Text>
+            </TouchableOpacity>
+          );
+        })}
+      </View>
     );
   }
   // Handles user input but DOES NOT change the page yet
@@ -131,7 +154,7 @@ export default function BibleScreen({ navigation }) {
               returnKeyType="done" // Makes the keyboard show "Done"
             />
             <TouchableOpacity
-              style={styles.button}
+              style={styles.button2}
               title="Old Testament"
               onPress={() => {
                 setOldVisible(true);
@@ -141,7 +164,7 @@ export default function BibleScreen({ navigation }) {
               <Text style={styles.buttonText}>Old Testament</Text>
             </TouchableOpacity>
             <TouchableOpacity
-              style={styles.button}
+              style={styles.button2}
               onPress={() => {
                 setNewVisible(true);
                 setControlsVisible(false);
@@ -154,9 +177,12 @@ export default function BibleScreen({ navigation }) {
         {oldVisible && (
           <View style={{ paddingTop: "15%" }}>
             <SectionList
-              sections={oldTestamentChapters}
+              sections={oldTestamentChapters.map((section) => ({
+                ...section,
+                data: chunkArray(section.data, 5),
+              }))}
               renderItem={renderOld}
-              keyExtractor={(i) => i.toString()}
+              keyExtractor={(item, index) => `old-${index}`}
               renderSectionHeader={({ section: { title } }) => (
                 <Text style={styles.header}>{title}</Text>
               )}
@@ -164,11 +190,14 @@ export default function BibleScreen({ navigation }) {
           </View>
         )}
         {newVisible && (
-          <View>
+          <View style={{ paddingTop: "15%" }}>
             <SectionList
-              sections={newTestamentChapters}
+              sections={newTestamentChapters.map((section) => ({
+                ...section,
+                data: chunkArray(section.data, 5),
+              }))}
               renderItem={renderNew}
-              keyExtractor={(i) => i.toString()}
+              keyExtractor={(item, index) => `new-${index}`}
               renderSectionHeader={({ section: { title } }) => (
                 <Text style={styles.header}>{title}</Text>
               )}
@@ -218,19 +247,38 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     zIndex: 10,
   },
+  row: {
+    flexDirection: "row",
+    justifyContent: "flex-start",
+    marginVertical: 1,
+    marginLeft: 10,
+  },
   button: {
     backgroundColor: "#e50000",
-    padding: 10,
-    marginHorizontal: 10,
-    marginVertical: 1,
+    margin: 4,
     alignItems: "center",
+    justifyContent: "center",
     borderWidth: 1,
     borderColor: "black",
+    borderRadius: 10,
+    width: (Dimensions.get("window").width - 60) / 5, // Calculate width for 5 columns
+    height: (Dimensions.get("window").width - 60) / 5, // Same as width for square
+  },
+  button2: {
+    backgroundColor: "#e50000",
+    margin: 1,
+    paddingVertical: 10,
+    alignItems: "center",
+    justifyContent: "center",
+    borderWidth: 1,
+    borderColor: "black",
+    borderRadius: 10,
   },
   buttonText: {
     color: "white",
-    fontSize: 16,
+    fontSize: 20,
     fontWeight: "bold",
+    textAlign: "center",
   },
   header: {
     fontSize: 32,

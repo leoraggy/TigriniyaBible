@@ -16,7 +16,7 @@ export default function App() {
           tabBarIcon: ({ focused, color, size }) => {
             let iconName;
 
-            if (route.name === "Bible") {
+            if (route.name === "365 Bible App For Kids") {
               iconName = "bible";
             } else if (route.name === "Images") {
               iconName = "image";
@@ -27,11 +27,9 @@ export default function App() {
           tabBarInactiveTintColor: "gray",
         })}
       >
-        <Tab.Screen name="Bible" component={BibleScreen} />
+        <Tab.Screen name="365 Bible App For Kids" component={BibleScreen} />
         <Tab.Screen name="Images" component={ImagesScreen} />
       </Tab.Navigator>
     </NavigationContainer>
   );
 }
-
-const styles = StyleSheet.create({});
