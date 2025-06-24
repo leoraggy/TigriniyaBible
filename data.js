@@ -156,3 +156,12 @@ export const newTestamentChapters = [
     data: [1183, 1181, 1185, 1188],
   },
 ];
+
+// helper function to make it 5 columns in section list
+export const chunkArray = (array, chunkSize) => {
+  const chunks = [];
+  for (let i = 0; i < array.length; i += chunkSize) {
+    chunks.push(array.slice(i, i + chunkSize));
+  }
+  return chunks;
+};

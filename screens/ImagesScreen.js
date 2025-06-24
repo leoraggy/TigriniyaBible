@@ -37,9 +37,6 @@ export default function ImagesScreen() {
         <TouchableOpacity onPress={() => openImageViewer(index)}>
           <Image source={item.image} style={styles.image} />
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => openImageViewer(index)}>
-          <Image source={item.image} style={styles.image} />
-        </TouchableOpacity>
       </View>
     );
   }
@@ -49,7 +46,6 @@ export default function ImagesScreen() {
       <FlatList
         data={images}
         renderItem={renderItem}
-        keyExtractor={(item, index) => item.id.toString()}
         keyExtractor={(item, index) => item.id.toString()}
         numColumns={3}
       />
