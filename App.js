@@ -14,7 +14,7 @@ export default function App() {
         screenOptions={({ route }) => ({
           tabBarIcon: ({ focused, color, size }) => {
             let iconName;
-            if (route.name === "365 Bible App For Kids") {
+            if (route.name === "Tigrina Kids Bible") {
               iconName = "bible";
             } else if (route.name === "Images") {
               iconName = "image";
@@ -25,7 +25,7 @@ export default function App() {
           tabBarInactiveTintColor: "gray",
         })}
       >
-        <Tab.Screen name="365 Bible App For Kids" component={BibleScreen} />
+        <Tab.Screen name="Tigrina Kids Bible" component={BibleScreen} />
         <Tab.Screen name="Images" component={ImagesScreen} />
       </Tab.Navigator>
     </NavigationContainer>

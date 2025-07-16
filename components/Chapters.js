@@ -6,7 +6,7 @@ import {
   SectionList,
   TouchableOpacity,
 } from "react-native";
-import { oldTestamentChapters, chunkArray } from "../data";
+import { chunkArray } from "../data";
 
 export default function Chapters({
   handlePage,
@@ -58,7 +58,6 @@ export default function Chapters({
 const styles = StyleSheet.create({
   header: {
     fontSize: 32,
-    backgroundColor: "#fff",
     padding: 10,
   },
   buttonText: {

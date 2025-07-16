@@ -1,4 +1,4 @@
-import { useState, useLayoutEffect } from "react";
+import { useState, useEffect } from "react";
 import { View, StyleSheet, TouchableOpacity } from "react-native";
 import { oldTestamentChapters, newTestamentChapters } from "../data";
 import Icon from "react-native-vector-icons/MaterialIcons";
@@ -28,8 +28,9 @@ export default function BibleScreen({ navigation }) {
     setPage(page);
   };
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     navigation.setOptions({
+      headerShown: !(oldVisible || newVisible),
       headerRight: () => (
         <TouchableOpacity
           style={{ marginRight: 15 }}
@@ -41,7 +42,7 @@ export default function BibleScreen({ navigation }) {
         </TouchableOpacity>
       ),
     });
-  }, [navigation, controlsVisible]);
+  }, [navigation, controlsVisible, oldVisible, newVisible]);
 
   return (
     <View style={styles.container}>
