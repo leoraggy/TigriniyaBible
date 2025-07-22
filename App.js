@@ -4,7 +4,6 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import FontAwesome5 from "@expo/vector-icons/FontAwesome5";
 import BibleScreen from "./screens/BibleScreen";
 import ImagesScreen from "./screens/ImagesScreen";
-
 const Tab = createBottomTabNavigator();
 
 export default function App() {

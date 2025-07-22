@@ -10,25 +10,19 @@ import {
 import { useState, useMemo } from "react";
 import { images } from "../utils/sortedImages";
 import ImageViewer from "react-native-image-zoom-viewer";
+import ImageCarousel from "../components/ImageCarousel";
 
 export default function ImagesScreen() {
   const [visible, setVisible] = useState(false);
   const [currentIndex, setCurrentIndex] = useState(0);
 
-  const imageViewingData = useMemo(
-    () =>
-      images.map((item) => ({
-        url: Image.resolveAssetSource(item.image).uri,
-        // Optional: Add more properties
-        width: Image.resolveAssetSource(item.image).width,
-        height: Image.resolveAssetSource(item.image).height,
-      })),
-    []
-  );
-
   const openImageViewer = (index) => {
     setCurrentIndex(index);
     setVisible(true);
+  };
+
+  const closeModal = () => {
+    setVisible(false);
   };
 
   function renderItem({ item, index }) {
@@ -50,24 +44,8 @@ export default function ImagesScreen() {
         numColumns={3}
       />
 
-      <Modal
-        visible={visible}
-        transparent={true}
-        onRequestClose={() => setVisible(false)}
-      >
-        <ImageViewer
-          imageUrls={imageViewingData}
-          index={currentIndex}
-          onSwipeDown={() => setVisible(false)}
-          onCancel={() => setVisible(false)}
-          enableSwipeDown={true}
-          enableImageZoom={true}
-          saveToLocalByLongPress={false}
-          menuContext={{
-            saveToLocal: "Save to Photos",
-            cancel: "Cancel",
-          }}
-        />
+      <Modal visible={visible} transparent={true} onRequestClose={closeModal}>
+        <ImageCarousel currentIndex={currentIndex} onClose={closeModal} />
       </Modal>
     </View>
   );
