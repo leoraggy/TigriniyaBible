@@ -9,7 +9,6 @@ import {
 } from "react-native";
 import { useState, useMemo } from "react";
 import { images } from "../utils/sortedImages";
-import ImageViewer from "react-native-image-zoom-viewer";
 import ImageCarousel from "../components/ImageCarousel";
 
 export default function ImagesScreen() {

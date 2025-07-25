@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { View, StyleSheet, TouchableOpacity } from "react-native";
 import { oldTestamentChapters, newTestamentChapters } from "../data";
-import Icon from "react-native-vector-icons/MaterialIcons";
+import Ionicons from "@expo/vector-icons/Ionicons";
 import BiblePDF from "../components/BiblePDF";
 import Chapters from "../components/Chapters";
 import Controls from "../components/Controls";
@@ -38,7 +38,7 @@ export default function BibleScreen({ navigation }) {
             setControlsVisible(!controlsVisible);
           }}
         >
-          <Icon name="menu" size={24} color="black" />
+          <Ionicons name="menu" size={24} color="black" />
         </TouchableOpacity>
       ),
     });
@@ -55,7 +55,7 @@ export default function BibleScreen({ navigation }) {
             setNewVisible(false);
           }}
         >
-          <Icon name="arrow-back" size={24} color="black" />
+          <Ionicons name="arrow-back" size={24} color="black" />
         </TouchableOpacity>
       )}
       <BiblePDF page={page} />
